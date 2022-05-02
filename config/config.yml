@@ -1,0 +1,60 @@
+---
+# Container descriptor
+- descriptor: "pip-services:context-info:default:default:1.0"
+  name: "jobs"
+  description: "Jobs microservice"
+
+# Console logger
+- descriptor: "pip-services:logger:console:default:1.0"
+  level: "trace"
+
+# Perfomance counter that post values to log
+- descriptor: "pip-services:counters:log:default:1.0"
+
+{{#if MONGO_ENABLED}}{{#if FILE_ENABLED}}
+# Memory persistence
+- descriptor: "service-jobs:persistence:memory:default:1.0"
+{{/if}}{{/if}}
+
+{{#if FILE_ENABLED}}
+# File persistence
+- descriptor: "service-jobs:persistence:file:default:1.0"
+  path: {{FILE_PATH}}{{#unless FILE_PATH}}"./data/jobs.json"{{/unless}}
+{{/if}}
+
+{{#if MONGO_ENABLED}}
+# MongoDb persistence
+- descriptor: "service-jobs:persistence:mongodb:default:1.0"
+  connection:
+    uri: {{MONGO_SERVICE_URI}}
+    host: {{MONGO_SERVICE_HOST}}{{#unless MONGO_SERVICE_HOST}}"localhost"{{/unless}}
+    port: {{MONGO_SERVICE_PORT}}{{#unless MONGO_SERVICE_PORT}}27017{{/if}}
+    database: {{MONGO_DB}}{{#unless MONGO_DB}}"test"{{/unless}}
+{{/if}}
+
+# Controller
+- descriptor: "service-jobs:controller:default:default:1.0"
+  options:
+    clean_interval: 60000
+
+# Shared HTTP Endpoint
+- descriptor: "pip-services:endpoint:http:default:1.0"
+  connection:
+    protocol: http
+    host: 0.0.0.0
+    port: {{HTTP_PORT}}{{#unless HTTP_PORT}}8080{{/unless}}
+
+# HTTP Service V1
+- descriptor: "service-jobs:service:http:default:1.0"
+  swagger:
+    enable: true
+    auto: true
+
+# Hearbeat service
+- descriptor: "pip-services:heartbeat-service:http:default:1.0"
+
+# Status service
+- descriptor: "pip-services:status-service:http:default:1.0"
+
+# Swagger service
+- descriptor: "pip-services:swagger-service:http:default:1.0"
