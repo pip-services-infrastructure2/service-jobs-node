@@ -3,6 +3,7 @@
 /.idea
 /obj/test
 /.vscode
+/package-lock.json
 /docker/id_rsa*
-package-lock.json
+/docker/.npmrc
 jobs.test.json
