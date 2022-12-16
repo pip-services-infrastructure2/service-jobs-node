@@ -1,1 +1,1 @@
-export { JobsHttpServiceV1 } from './JobsHttpServiceV1';
+export { JobsCommandableHttpServiceV1 } from './JobsCommandableHttpServiceV1';

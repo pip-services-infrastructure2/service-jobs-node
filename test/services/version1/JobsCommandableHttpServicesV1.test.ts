@@ -1,7 +1,7 @@
 const assert = require('chai').assert;
 const restify = require('restify');
 
-import { ConfigParams, DateTimeConverter } from 'pip-services3-commons-nodex';
+import { ConfigParams } from 'pip-services3-commons-nodex';
 import { Descriptor } from 'pip-services3-commons-nodex';
 import { References } from 'pip-services3-commons-nodex';
 import { FilterParams } from 'pip-services3-commons-nodex';
@@ -10,7 +10,7 @@ import { PagingParams } from 'pip-services3-commons-nodex';
 import { JobV1 } from '../../../src/data/version1/JobV1';
 import { JobsMemoryPersistence } from '../../../src/persistence/JobsMemoryPersistence';
 import { JobsController } from '../../../src/logic/JobsController';
-import { JobsHttpServiceV1 } from '../../../src/services/version1/JobsHttpServiceV1';
+import { JobsCommandableHttpServiceV1 } from '../../../src/services/version1/JobsCommandableHttpServiceV1';
 import { NewJobV1 } from '../../../src/data/version1/NewJobV1';
 
 const JOB1: NewJobV1 = {
@@ -35,7 +35,7 @@ const JOB3: NewJobV1 = {
 suite('JobsHttpServiceV1', () => {
     let persistence: JobsMemoryPersistence;
     let controller: JobsController;
-    let service: JobsHttpServiceV1;
+    let service: JobsCommandableHttpServiceV1;
     let rest: any;
 
     setup(async () => {
@@ -48,7 +48,7 @@ suite('JobsHttpServiceV1', () => {
         controller = new JobsController();
         controller.configure(new ConfigParams());
 
-        service = new JobsHttpServiceV1();
+        service = new JobsCommandableHttpServiceV1();
         service.configure(ConfigParams.fromTuples(
             'connection.protocol', 'http',
             'connection.port', 3000,
@@ -58,7 +58,7 @@ suite('JobsHttpServiceV1', () => {
         let references = References.fromTuples(
             new Descriptor('service-jobs', 'persistence', 'memory', 'default', '1.0'), persistence,
             new Descriptor('service-jobs', 'controller', 'default', 'default', '1.0'), controller,
-            new Descriptor('service-jobs', 'service', 'http', 'default', '1.0'), service
+            new Descriptor('service-jobs', 'service', 'commandable-http', 'default', '1.0'), service
         );
 
         controller.setReferences(references);
