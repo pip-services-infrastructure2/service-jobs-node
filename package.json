@@ -1,6 +1,6 @@
 {
     "name": "service-jobs-node",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "author": "Conceptual Vision Consulting LLC",
     "description": "Jobs orchestration microservice in Node.js / ES2017",
     "contributors": [

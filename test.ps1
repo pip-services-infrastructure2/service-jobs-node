@@ -18,8 +18,7 @@ try {
 
     # Save the result to avoid overwriting it with the "down" command below
     $exitCode = $LastExitCode 
-}
-finally {
+} finally {
     # Workaround to remove dangling images
     docker-compose -f "$PSScriptRoot/docker/docker-compose.test.yml" down
 }
