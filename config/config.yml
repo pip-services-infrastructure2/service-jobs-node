@@ -45,7 +45,7 @@
     port: {{HTTP_PORT}}{{#unless HTTP_PORT}}8080{{/unless}}
 
 # HTTP Service V1
-- descriptor: "service-jobs:service:http:default:1.0"
+- descriptor: "service-jobs:service:commandable-http:default:1.0"
   swagger:
     enable: true
     auto: true
